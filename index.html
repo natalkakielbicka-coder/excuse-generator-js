@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Generator zabawnych wymówek programisty napisany w czystym JavaScript."
+    />
+    <title>Generator wymówek programisty</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+  </head>
+
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="Generator wymówek — strona główna">
+        <span class="brand__icon" aria-hidden="true">&lt;/&gt;</span>
+        <span>Generator wymówek programisty</span>
+      </a>
+
+      <nav class="site-nav" aria-label="Główna nawigacja">
+        <a href="#about">O projekcie</a>
+        <a href="#generator">Losowa wymówka</a>
+        <a href="#contact">Kontakt</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="hero" id="generator">
+        <div class="decoration decoration--note" aria-hidden="true">
+          Więcej kawy<br />=<br />lepszy kod &lt;3
+        </div>
+        <div class="decoration decoration--braces" aria-hidden="true">{ }</div>
+        <div class="decoration decoration--code" aria-hidden="true">&lt;/&gt;</div>
+
+        <div class="hero__content">
+          <p class="eyebrow">Awaryjny zestaw każdego developera</p>
+          <h1>Generator wymówek programisty</h1>
+          <p class="hero__lead">Bo czasem to nie Ty, tylko okoliczności… albo produkcja.</p>
+
+          <article class="excuse-card" aria-live="polite">
+            <div class="excuse-card__top">
+              <span id="excuse-number">Wymówka #01</span>
+              <span class="window-dots" aria-hidden="true">
+                <i></i><i></i><i></i>
+              </span>
+            </div>
+
+            <p class="category" id="excuse-category">Kategoria: Produkcja</p>
+            <p class="excuse" id="excuse-text">Na localhost działało, ale produkcja wyczuła strach.</p>
+
+            <div class="actions">
+              <button class="button button--primary" id="draw-button" type="button">
+                <span aria-hidden="true">⤨</span>
+                Losuj wymówkę
+              </button>
+              <button class="button button--secondary" id="copy-button" type="button">
+                <span aria-hidden="true">▢</span>
+                Kopiuj
+              </button>
+            </div>
+
+            <p class="copy-message" id="copy-message" role="status"></p>
+          </article>
+
+          <p class="hero__footer">Małe wymówki. Większe możliwości. <span>♥</span></p>
+        </div>
+      </section>
+
+      <section class="info-section" id="about">
+        <p class="eyebrow">O projekcie</p>
+        <h2>Mała aplikacja, konkretne podstawy JavaScriptu</h2>
+        <p>Projekt służy do nauki danych, funkcji, zdarzeń, pracy z DOM-em i Web API.</p>
+      </section>
+
+      <section class="info-section info-section--contact" id="contact">
+        <p class="eyebrow">Kontakt</p>
+        <h2>Masz lepszą wymówkę?</h2>
+        <p>Dodawanie własnych propozycji będzie jednym z kolejnych etapów aplikacji.</p>
+      </section>
+    </main>
+  </body>
+</html>
