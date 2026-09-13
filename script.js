@@ -44,11 +44,18 @@ function displayExcuse(excuse) {
   excuseText.textContent = excuse.text;
 }
 
-function drawExcuse() {
-  const randomIndex = Math.floor(Math.random() * excuses.length);
-  const randomExcuse = excuses[randomIndex];
+let lastDrawnIndex = -1;
 
-  console.log(randomIndex, randomExcuse);
+function drawExcuse() {
+  let randomIndex;
+
+  do {
+    randomIndex = Math.floor(Math.random() * excuses.length);
+  } while (randomIndex === lastDrawnIndex && excuses.length > 1);
+
+  lastDrawnIndex = randomIndex;
+
+  const randomExcuse = excuses[randomIndex];
 
   displayExcuse(randomExcuse);
 }
