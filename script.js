@@ -47,7 +47,13 @@ function displayExcuse(excuse) {
 let lastDrawnIndex = -1;
 let copyMessageTimeoutId;
 
+function hideCopyMessage() {
+  clearTimeout(copyMessageTimeoutId);
+  copyMessage.textContent = "";
+}
+
 function drawExcuse() {
+  hideCopyMessage();
   let randomIndex;
 
   do {
@@ -59,10 +65,6 @@ function drawExcuse() {
   const randomExcuse = excuses[randomIndex];
 
   displayExcuse(randomExcuse);
-}
-
-function hideCopyMessage() {
-  copyMessage.textContent = "";
 }
 
 function showCopyMessage(message) {
