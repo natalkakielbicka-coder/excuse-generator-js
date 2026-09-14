@@ -45,6 +45,7 @@ function displayExcuse(excuse) {
 }
 
 let lastDrawnIndex = -1;
+let copyMessageTimeoutId;
 
 function drawExcuse() {
   let randomIndex;
@@ -60,13 +61,21 @@ function drawExcuse() {
   displayExcuse(randomExcuse);
 }
 
+function showCopyMessage(message) {
+  copyMessage.textContent = message;
+
+  clearTimeout(copyMessageTimeoutId);
+
+  copyMessageTimeoutId = setTimeout(hideCopyMessage, 3000);
+}
+
 async function copyExcuse() {
   try {
     await navigator.clipboard.writeText(excuseText.textContent);
 
-    copyMessage.textContent = "Wymówka została skopiowana!";
+    showCopyMessage("Wymówka została skopiowana!");
   } catch (error) {
-    copyMessage.textContent = "Nie udało się skopiować wymówki.";
+    showCopyMessage("Nie udało się skopiować wymówki.");
 
     console.error(error);
   }
