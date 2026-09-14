@@ -47,6 +47,7 @@ function displayExcuse(excuse) {
 }
 
 let copyMessageTimeoutId;
+let lastDrawnExcuseId = null;
 
 function hideCopyMessage() {
   clearTimeout(copyMessageTimeoutId);
@@ -60,10 +61,18 @@ function drawExcuse() {
     availableExcuses = [...excuses];
   }
 
-  const randomIndex = Math.floor(Math.random() * availableExcuses.length);
+  let randomIndex;
+
+  do {
+    randomIndex = Math.floor(Math.random() * availableExcuses.length);
+  } while (
+    availableExcuses.length > 1 &&
+    availableExcuses[randomIndex].id === lastDrawnExcuseId
+  );
 
   const removedExcuses = availableExcuses.splice(randomIndex, 1);
   const randomExcuse = removedExcuses[0];
+  lastDrawnExcuseId = randomExcuse.id;
 
   displayExcuse(randomExcuse);
 }
