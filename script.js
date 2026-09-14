@@ -31,6 +31,8 @@ const excuses = [
   },
 ];
 
+let availableExcuses = [...excuses];
+
 const excuseNumber = document.querySelector("#excuse-number");
 const excuseCategory = document.querySelector("#excuse-category");
 const excuseText = document.querySelector("#excuse-text");
@@ -44,7 +46,6 @@ function displayExcuse(excuse) {
   excuseText.textContent = excuse.text;
 }
 
-let lastDrawnIndex = -1;
 let copyMessageTimeoutId;
 
 function hideCopyMessage() {
@@ -54,15 +55,15 @@ function hideCopyMessage() {
 
 function drawExcuse() {
   hideCopyMessage();
-  let randomIndex;
 
-  do {
-    randomIndex = Math.floor(Math.random() * excuses.length);
-  } while (randomIndex === lastDrawnIndex && excuses.length > 1);
+  if (availableExcuses.length === 0) {
+    availableExcuses = [...excuses];
+  }
 
-  lastDrawnIndex = randomIndex;
+  const randomIndex = Math.floor(Math.random() * availableExcuses.length);
 
-  const randomExcuse = excuses[randomIndex];
+  const removedExcuses = availableExcuses.splice(randomIndex, 1);
+  const randomExcuse = removedExcuses[0];
 
   displayExcuse(randomExcuse);
 }
