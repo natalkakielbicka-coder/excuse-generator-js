@@ -121,6 +121,12 @@ function displayExcuse(excuse) {
   excuseNumber.textContent = `Wymówka #${String(excuse.id).padStart(2, "0")}`;
   excuseCategory.textContent = `Kategoria: ${excuse.category}`;
   excuseText.textContent = excuse.text;
+
+  excuseText.classList.add("is-changing");
+}
+
+function handleExcuseAnimationEnd() {
+  excuseText.classList.remove("is-changing");
 }
 
 let copyMessageTimeoutId;
@@ -177,5 +183,6 @@ async function copyExcuse() {
 drawButton.addEventListener("click", drawExcuse);
 copyButton.addEventListener("click", copyExcuse);
 categoryFilter.addEventListener("change", handleCategoryChange);
+excuseText.addEventListener("animationend", handleExcuseAnimationEnd);
 
 drawExcuse();
