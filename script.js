@@ -81,10 +81,6 @@ const excuses = [
 let availableExcuses = [...excuses];
 let activeCategory = "all";
 
-const categories = excuses.map((excuse) => excuse.category);
-
-const uniqueCategoriesSet = new Set(categories);
-
 const uniqueCategories = [...new Set(excuses.map((excuse) => excuse.category))];
 
 const excuseNumber = document.querySelector("#excuse-number");
