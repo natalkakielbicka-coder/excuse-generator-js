@@ -60,6 +60,19 @@ function drawExcuse() {
   displayExcuse(randomExcuse);
 }
 
+async function copyExcuse() {
+  try {
+    await navigator.clipboard.writeText(excuseText.textContent);
+
+    copyMessage.textContent = "Wymówka została skopiowana!";
+  } catch (error) {
+    copyMessage.textContent = "Nie udało się skopiować wymówki.";
+
+    console.error(error);
+  }
+}
+
 drawButton.addEventListener("click", drawExcuse);
+copyButton.addEventListener("click", copyExcuse);
 
 drawExcuse();
