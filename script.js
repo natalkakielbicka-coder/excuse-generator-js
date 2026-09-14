@@ -70,8 +70,8 @@ function drawExcuse() {
     availableExcuses[randomIndex].id === lastDrawnExcuseId
   );
 
-  const removedExcuses = availableExcuses.splice(randomIndex, 1);
-  const randomExcuse = removedExcuses[0];
+  const [randomExcuse] = availableExcuses.splice(randomIndex, 1);
+
   lastDrawnExcuseId = randomExcuse.id;
 
   displayExcuse(randomExcuse);
