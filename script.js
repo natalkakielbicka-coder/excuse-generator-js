@@ -61,6 +61,10 @@ function drawExcuse() {
   displayExcuse(randomExcuse);
 }
 
+function hideCopyMessage() {
+  copyMessage.textContent = "";
+}
+
 function showCopyMessage(message) {
   copyMessage.textContent = message;
 
