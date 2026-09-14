@@ -29,8 +29,59 @@ const excuses = [
     text: "To prawdopodobnie przez retrogradację Merkurego w repozytorium.",
     category: "Git",
   },
+  {
+    id: 6,
+    text: "Kod jest dobry, tylko środowisko nie współpracuje.",
+    category: "Produkcja",
+  },
+  {
+    id: 7,
+    text: "Ten fragment był już taki, kiedy otworzyłem projekt.",
+    category: "Kod",
+  },
+  {
+    id: 8,
+    text: "Git twierdzi, że nie ma konfliktu, więc mu wierzę.",
+    category: "Git",
+  },
+  {
+    id: 9,
+    text: "Po wyczyszczeniu cache powinno działać. Prawdopodobnie.",
+    category: "Cache",
+  },
+  {
+    id: 10,
+    text: "Aktualizacja naprawiła błąd, dodając dwa nowe.",
+    category: "Aktualizacja",
+  },
+  {
+    id: 11,
+    text: "To działa asynchronicznie. Bardzo asynchronicznie.",
+    category: "Kod",
+  },
+  {
+    id: 12,
+    text: "Produkcja ma inne poczucie humoru niż środowisko testowe.",
+    category: "Produkcja",
+  },
+  {
+    id: 13,
+    text: "Commit był poprawny, zanim został zmergowany.",
+    category: "Git",
+  },
+  {
+    id: 14,
+    text: "Przeglądarka pamięta poprzednią wersję lepiej niż ja.",
+    category: "Cache",
+  },
+  {
+    id: 15,
+    text: "Dokumentacja nie przewidziała tak kreatywnego użycia.",
+    category: "Kod",
+  },
 ];
 
+console.log(excuses.length);
 let availableExcuses = [...excuses];
 
 const excuseNumber = document.querySelector("#excuse-number");
