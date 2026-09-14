@@ -79,6 +79,7 @@ const excuses = [
 ];
 
 let availableExcuses = [...excuses];
+let activeCategory = "all";
 
 const categories = excuses.map((excuse) => excuse.category);
 
@@ -103,10 +104,21 @@ uniqueCategories.forEach((category) => {
   categoryFilter.append(categoryOption);
 });
 
+function getExcusesByCategory(category) {
+  if (category === "all") {
+    return [...excuses];
+  }
+
+  return excuses.filter((excuse) => excuse.category === category);
+}
+
 function handleCategoryChange(event) {
   const selectedCategory = event.target.value;
 
-  console.log(selectedCategory);
+  activeCategory = selectedCategory;
+  availableExcuses = getExcusesByCategory(activeCategory);
+
+  drawExcuse();
 }
 
 function displayExcuse(excuse) {
@@ -127,7 +139,7 @@ function drawExcuse() {
   hideCopyMessage();
 
   if (availableExcuses.length === 0) {
-    availableExcuses = [...excuses];
+    availableExcuses = getExcusesByCategory(activeCategory);
   }
 
   let randomIndex;
