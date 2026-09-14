@@ -14,7 +14,11 @@
 
   <body>
     <header class="site-header">
-      <a class="brand" href="#top" aria-label="Generator wymówek — strona główna">
+      <a
+        class="brand"
+        href="#top"
+        aria-label="Generator wymówek — strona główna"
+      >
         <span class="brand__icon" aria-hidden="true">&lt;/&gt;</span>
         <span>Generator wymówek programisty</span>
       </a>
@@ -32,12 +36,16 @@
           Więcej kawy<br />=<br />lepszy kod &lt;3
         </div>
         <div class="decoration decoration--braces" aria-hidden="true">{ }</div>
-        <div class="decoration decoration--code" aria-hidden="true">&lt;/&gt;</div>
+        <div class="decoration decoration--code" aria-hidden="true">
+          &lt;/&gt;
+        </div>
 
         <div class="hero__content">
           <p class="eyebrow">Awaryjny zestaw każdego developera</p>
           <h1>Generator wymówek programisty</h1>
-          <p class="hero__lead">Bo czasem to nie Ty, tylko okoliczności… albo produkcja.</p>
+          <p class="hero__lead">
+            Bo czasem to nie Ty, tylko okoliczności… albo produkcja.
+          </p>
 
           <article class="excuse-card" aria-live="polite">
             <div class="excuse-card__top">
@@ -47,15 +55,33 @@
               </span>
             </div>
 
+            <div class="category-filter">
+              <label for="category-filter">Losuj z kategorii:</label>
+
+              <select id="category-filter">
+                <option value="all">Wszystkie</option>
+              </select>
+            </div>
+
             <p class="category" id="excuse-category">Kategoria: Produkcja</p>
-            <p class="excuse" id="excuse-text">Na localhost działało, ale produkcja wyczuła strach.</p>
+            <p class="excuse" id="excuse-text">
+              Na localhost działało, ale produkcja wyczuła strach.
+            </p>
 
             <div class="actions">
-              <button class="button button--primary" id="draw-button" type="button">
+              <button
+                class="button button--primary"
+                id="draw-button"
+                type="button"
+              >
                 <span aria-hidden="true">⤨</span>
                 Losuj wymówkę
               </button>
-              <button class="button button--secondary" id="copy-button" type="button">
+              <button
+                class="button button--secondary"
+                id="copy-button"
+                type="button"
+              >
                 <span aria-hidden="true">▢</span>
                 Kopiuj
               </button>
@@ -64,20 +90,28 @@
             <p class="copy-message" id="copy-message" role="status"></p>
           </article>
 
-          <p class="hero__footer">Małe wymówki. Większe możliwości. <span>♥</span></p>
+          <p class="hero__footer">
+            Małe wymówki. Większe możliwości. <span>♥</span>
+          </p>
         </div>
       </section>
 
       <section class="info-section" id="about">
         <p class="eyebrow">O projekcie</p>
         <h2>Mała aplikacja, konkretne podstawy JavaScriptu</h2>
-        <p>Projekt służy do nauki danych, funkcji, zdarzeń, pracy z DOM-em i Web API.</p>
+        <p>
+          Projekt służy do nauki danych, funkcji, zdarzeń, pracy z DOM-em i Web
+          API.
+        </p>
       </section>
 
       <section class="info-section info-section--contact" id="contact">
         <p class="eyebrow">Kontakt</p>
         <h2>Masz lepszą wymówkę?</h2>
-        <p>Dodawanie własnych propozycji będzie jednym z kolejnych etapów aplikacji.</p>
+        <p>
+          Dodawanie własnych propozycji będzie jednym z kolejnych etapów
+          aplikacji.
+        </p>
       </section>
     </main>
   </body>

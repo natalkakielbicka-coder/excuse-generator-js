@@ -1,8 +1,5 @@
 "use strict";
 
-// Etap 1: w kolejnym kroku zapiszemy tutaj dane pojedynczej wymówki.
-// Na razie interfejs jest celowo statyczny — najpierw poznajemy strukturę projektu.
-
 const excuses = [
   {
     id: 1,
@@ -81,8 +78,13 @@ const excuses = [
   },
 ];
 
-console.log(excuses.length);
 let availableExcuses = [...excuses];
+
+const categories = excuses.map((excuse) => excuse.category);
+
+const uniqueCategoriesSet = new Set(categories);
+
+const uniqueCategories = [...new Set(excuses.map((excuse) => excuse.category))];
 
 const excuseNumber = document.querySelector("#excuse-number");
 const excuseCategory = document.querySelector("#excuse-category");
@@ -90,6 +92,22 @@ const excuseText = document.querySelector("#excuse-text");
 const drawButton = document.querySelector("#draw-button");
 const copyButton = document.querySelector("#copy-button");
 const copyMessage = document.querySelector("#copy-message");
+const categoryFilter = document.querySelector("#category-filter");
+
+uniqueCategories.forEach((category) => {
+  const categoryOption = document.createElement("option");
+
+  categoryOption.value = category;
+  categoryOption.textContent = category;
+
+  categoryFilter.append(categoryOption);
+});
+
+function handleCategoryChange(event) {
+  const selectedCategory = event.target.value;
+
+  console.log(selectedCategory);
+}
 
 function displayExcuse(excuse) {
   excuseNumber.textContent = `Wymówka #${String(excuse.id).padStart(2, "0")}`;
@@ -150,5 +168,6 @@ async function copyExcuse() {
 
 drawButton.addEventListener("click", drawExcuse);
 copyButton.addEventListener("click", copyExcuse);
+categoryFilter.addEventListener("change", handleCategoryChange);
 
 drawExcuse();
