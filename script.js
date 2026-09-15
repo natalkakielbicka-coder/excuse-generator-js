@@ -129,6 +129,24 @@ function handleExcuseAnimationEnd() {
   excuseText.classList.remove("is-changing");
 }
 
+function handleKeyboardShortcut(event) {
+  const pressedKey = event.key.toLowerCase();
+
+  if (pressedKey !== "n") {
+    return;
+  }
+
+  if (event.repeat) {
+    return;
+  }
+
+  if (event.target.matches("input, textarea, select")) {
+    return;
+  }
+
+  drawExcuse();
+}
+
 let copyMessageTimeoutId;
 let lastDrawnExcuseId = null;
 
@@ -184,5 +202,6 @@ drawButton.addEventListener("click", drawExcuse);
 copyButton.addEventListener("click", copyExcuse);
 categoryFilter.addEventListener("change", handleCategoryChange);
 excuseText.addEventListener("animationend", handleExcuseAnimationEnd);
+document.addEventListener("keydown", handleKeyboardShortcut);
 
 drawExcuse();
