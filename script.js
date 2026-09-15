@@ -83,6 +83,8 @@ let activeCategory = "all";
 
 const uniqueCategories = [...new Set(excuses.map((excuse) => excuse.category))];
 
+const ACTIVE_CATEGORY_STORAGE_KEY = "activeCategory";
+
 const excuseNumber = document.querySelector("#excuse-number");
 const excuseCategory = document.querySelector("#excuse-category");
 const excuseText = document.querySelector("#excuse-text");
@@ -108,10 +110,28 @@ function getExcusesByCategory(category) {
   return excuses.filter((excuse) => excuse.category === category);
 }
 
+function restoreSavedCategory() {
+  const savedCategory = localStorage.getItem(ACTIVE_CATEGORY_STORAGE_KEY);
+
+  const isSavedCategoryValid =
+    savedCategory === "all" || uniqueCategories.includes(savedCategory);
+
+  if (!isSavedCategoryValid) {
+    return;
+  }
+
+  activeCategory = savedCategory;
+  categoryFilter.value = savedCategory;
+  availableExcuses = getExcusesByCategory(savedCategory);
+}
+
 function handleCategoryChange(event) {
   const selectedCategory = event.target.value;
 
   activeCategory = selectedCategory;
+
+  localStorage.setItem(ACTIVE_CATEGORY_STORAGE_KEY, activeCategory);
+
   availableExcuses = getExcusesByCategory(activeCategory);
 
   drawExcuse();
@@ -204,4 +224,5 @@ categoryFilter.addEventListener("change", handleCategoryChange);
 excuseText.addEventListener("animationend", handleExcuseAnimationEnd);
 document.addEventListener("keydown", handleKeyboardShortcut);
 
+restoreSavedCategory();
 drawExcuse();
