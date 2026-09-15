@@ -84,6 +84,7 @@ let activeCategory = "all";
 const uniqueCategories = [...new Set(excuses.map((excuse) => excuse.category))];
 
 const ACTIVE_CATEGORY_STORAGE_KEY = "activeCategory";
+const LAST_EXCUSE_STORAGE_KEY = "lastExcuse";
 
 const excuseNumber = document.querySelector("#excuse-number");
 const excuseCategory = document.querySelector("#excuse-category");
@@ -123,6 +124,51 @@ function restoreSavedCategory() {
   activeCategory = savedCategory;
   categoryFilter.value = savedCategory;
   availableExcuses = getExcusesByCategory(savedCategory);
+}
+
+function restoreLastExcuse() {
+  const savedExcuse = localStorage.getItem(LAST_EXCUSE_STORAGE_KEY);
+
+  if (!savedExcuse) {
+    return false;
+  }
+
+  let parsedExcuse;
+
+  try {
+    parsedExcuse = JSON.parse(savedExcuse);
+  } catch (error) {
+    localStorage.removeItem(LAST_EXCUSE_STORAGE_KEY);
+
+    console.error("Nie udało się odczytać zapisanej wymówki.", error);
+
+    return false;
+  }
+
+  const matchingExcuse = excuses.find(
+    (excuse) => excuse.id === parsedExcuse.id,
+  );
+
+  if (!matchingExcuse) {
+    return false;
+  }
+
+  const matchesActiveCategory =
+    activeCategory === "all" || matchingExcuse.category === activeCategory;
+
+  if (!matchesActiveCategory) {
+    return false;
+  }
+
+  lastDrawnExcuseId = matchingExcuse.id;
+
+  availableExcuses = availableExcuses.filter(
+    (excuse) => excuse.id !== matchingExcuse.id,
+  );
+
+  displayExcuse(matchingExcuse);
+
+  return true;
 }
 
 function handleCategoryChange(event) {
@@ -195,6 +241,10 @@ function drawExcuse() {
 
   lastDrawnExcuseId = randomExcuse.id;
 
+  const serializedExcuse = JSON.stringify(randomExcuse);
+
+  localStorage.setItem(LAST_EXCUSE_STORAGE_KEY, serializedExcuse);
+
   displayExcuse(randomExcuse);
 }
 
@@ -225,4 +275,9 @@ excuseText.addEventListener("animationend", handleExcuseAnimationEnd);
 document.addEventListener("keydown", handleKeyboardShortcut);
 
 restoreSavedCategory();
-drawExcuse();
+
+const wasLastExcuseRestored = restoreLastExcuse();
+
+if (!wasLastExcuseRestored) {
+  drawExcuse();
+}
