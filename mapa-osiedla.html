@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Osiedle Zielona Dolina — mapa 3D</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <h1>Osiedle Zielona Dolina</h1>
+      <span class="topbar-sub">mapa 3D</span>
+    </header>
+
+    <div class="layout">
+      <aside class="panel">
+        <section class="panel-block">
+          <h2>Osiedle</h2>
+          <dl class="stats">
+            <div>
+              <dt>Budynki</dt>
+              <dd>4</dd>
+            </div>
+            <div>
+              <dt>Mieszkania</dt>
+              <dd>128</dd>
+            </div>
+            <div>
+              <dt>Działka</dt>
+              <dd>2,4 ha</dd>
+            </div>
+          </dl>
+        </section>
+
+        <section class="panel-block">
+          <h2>Legenda</h2>
+          <ul class="legend">
+            <li><span class="dot dot-available"></span>Dostępne</li>
+            <li><span class="dot dot-reserved"></span>Zarezerwowane</li>
+            <li><span class="dot dot-sold"></span>Sprzedane</li>
+          </ul>
+        </section>
+
+        <section class="panel-block">
+          <h2>Wybrany budynek</h2>
+          <p class="empty-state">
+            Kliknij budynek na mapie, żeby zobaczyć szczegóły.
+          </p>
+        </section>
+      </aside>
+
+      <main class="scene-wrap">
+        <div id="app"></div>
+      </main>
+    </div>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+          "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+      }
+    </script>
+
+    <script type="module" src="main.js"></script>
+  </body>
+</html>
