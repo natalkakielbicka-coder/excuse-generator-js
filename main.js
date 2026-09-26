@@ -72,8 +72,13 @@ function onPointerMove(event) {
 
 function onClick() {
   if (intersects.length > 0) {
-    const apartment = intersects[0].object.userData;
+    const marker = intersects[0].object;
+    const apartment = marker.userData;
     buildingInfo.textContent = `${apartment.name} (piętro: ${apartment.floorName}) — ${apartment.status}`;
+
+    controlsTarget.set(marker.position.x, marker.position.y, 0);
+    cameraTarget.set(marker.position.x + 8, marker.position.y + 3, 8);
+    isAnimatingCamera = true;
   }
 }
 
