@@ -46,7 +46,7 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   1000,
 );
-camera.position.set(0, 10, 15);
+camera.position.set(6, 8, 14);
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(app.clientWidth, app.clientHeight);
 app.appendChild(renderer.domElement);
@@ -147,45 +147,92 @@ const buildingMesh = new THREE.Mesh(buildingGeometry, buildingMaterial);
 buildingMesh.position.y = buildingHeight / 2;
 building.add(buildingMesh);
 
+function createMarker(width, height, status, x, y, z, rotationY) {
+  const markerGeometry = new THREE.PlaneGeometry(width * 0.9, height * 0.9);
+  const markerMaterial = new THREE.MeshStandardMaterial({
+    color: statusColors[status],
+    transparent: true,
+    opacity: 0.5,
+  });
+  const marker = new THREE.Mesh(markerGeometry, markerMaterial);
+  marker.position.set(x, y, z);
+  marker.rotation.y = rotationY;
+
+  const markerEdges = new THREE.EdgesGeometry(markerGeometry);
+  const markerBorder = new THREE.LineSegments(
+    markerEdges,
+    new THREE.LineBasicMaterial({ color: statusColors[status] }),
+  );
+  marker.add(markerBorder);
+
+  return marker;
+}
+
 for (let i = 0; i < floorsData.length; i++) {
   const floor = floorsData[i];
   const apartmentWidth = buildingWidth / floor.apartments.length;
 
   for (let j = 0; j < floor.apartments.length; j++) {
-    const markerGeometry = new THREE.PlaneGeometry(
-      apartmentWidth * 0.95,
-      floorHeight * 0.95,
-    );
-    const markerMaterial = new THREE.MeshStandardMaterial({
-      color: statusColors[floor.apartments[j].status],
-      transparent: true,
-      opacity: 0.5,
-    });
-    const marker = new THREE.Mesh(markerGeometry, markerMaterial);
+    const status = floor.apartments[j].status;
+    const centerX = -buildingWidth / 2 + apartmentWidth * (j + 0.5);
+    const centerY = i * floorHeight + floorHeight / 2;
+    const userData = { ...floor.apartments[j], floorName: floor.name };
 
-    marker.position.set(
-      -buildingWidth / 2 + apartmentWidth * (j + 0.5),
-      i * floorHeight + floorHeight / 2,
+    const front = createMarker(
+      apartmentWidth,
+      floorHeight,
+      status,
+      centerX,
+      centerY,
       buildingDepth / 2 + 0.02,
+      0,
     );
+    front.userData = userData;
+    building.add(front);
+    apartmentMeshes.push(front);
 
-    marker.userData = {
-      ...floor.apartments[j],
-      floorName: floor.name,
-    };
-
-    building.add(marker);
-
-    const markerEdges = new THREE.EdgesGeometry(markerGeometry);
-    const markerBorder = new THREE.LineSegments(
-      markerEdges,
-      new THREE.LineBasicMaterial({
-        color: statusColors[floor.apartments[j].status],
-      }),
+    const back = createMarker(
+      apartmentWidth,
+      floorHeight,
+      status,
+      centerX,
+      centerY,
+      -(buildingDepth / 2 + 0.02),
+      Math.PI,
     );
-    marker.add(markerBorder);
+    back.userData = userData;
+    building.add(back);
+    apartmentMeshes.push(back);
 
-    apartmentMeshes.push(marker);
+    if (j === 0) {
+      const left = createMarker(
+        buildingDepth,
+        floorHeight,
+        status,
+        -(buildingWidth / 2 + 0.02),
+        centerY,
+        0,
+        -Math.PI / 2,
+      );
+      left.userData = userData;
+      building.add(left);
+      apartmentMeshes.push(left);
+    }
+
+    if (j === floor.apartments.length - 1) {
+      const right = createMarker(
+        buildingDepth,
+        floorHeight,
+        status,
+        buildingWidth / 2 + 0.02,
+        centerY,
+        0,
+        Math.PI / 2,
+      );
+      right.userData = userData;
+      building.add(right);
+      apartmentMeshes.push(right);
+    }
   }
 }
 
