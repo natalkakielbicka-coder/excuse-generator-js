@@ -147,6 +147,48 @@ const buildingMesh = new THREE.Mesh(buildingGeometry, buildingMaterial);
 buildingMesh.position.y = buildingHeight / 2;
 building.add(buildingMesh);
 
+for (let i = 0; i < floorsData.length; i++) {
+  const floor = floorsData[i];
+  const apartmentWidth = buildingWidth / floor.apartments.length;
+
+  for (let j = 0; j < floor.apartments.length; j++) {
+    const markerGeometry = new THREE.PlaneGeometry(
+      apartmentWidth * 0.95,
+      floorHeight * 0.95,
+    );
+    const markerMaterial = new THREE.MeshStandardMaterial({
+      color: statusColors[floor.apartments[j].status],
+      transparent: true,
+      opacity: 0.5,
+    });
+    const marker = new THREE.Mesh(markerGeometry, markerMaterial);
+
+    marker.position.set(
+      -buildingWidth / 2 + apartmentWidth * (j + 0.5),
+      i * floorHeight + floorHeight / 2,
+      buildingDepth / 2 + 0.02,
+    );
+
+    marker.userData = {
+      ...floor.apartments[j],
+      floorName: floor.name,
+    };
+
+    building.add(marker);
+
+    const markerEdges = new THREE.EdgesGeometry(markerGeometry);
+    const markerBorder = new THREE.LineSegments(
+      markerEdges,
+      new THREE.LineBasicMaterial({
+        color: statusColors[floor.apartments[j].status],
+      }),
+    );
+    marker.add(markerBorder);
+
+    apartmentMeshes.push(marker);
+  }
+}
+
 scene.add(building);
 
 function animate() {
