@@ -275,13 +275,18 @@ function animate() {
   });
 
   if (intersects.length > 0) {
-    const floor = intersects[0].object.userData;
-    tooltip.textContent = `${floor.name} (${floor.status})`;
+    const hoveredData = intersects[0].object.userData;
+
+    tooltip.textContent = `${hoveredData.name} (${hoveredData.status})`;
     tooltip.style.left = `${pointerPixelX}px`;
     tooltip.style.top = `${pointerPixelY}px`;
     tooltip.classList.add("visible");
 
-    intersects[0].object.material.color.set(0xd4805a);
+    apartmentMeshes.forEach((marker) => {
+      if (marker.userData === hoveredData) {
+        marker.material.color.set(0xd4805a);
+      }
+    });
   } else {
     tooltip.classList.remove("visible");
   }
