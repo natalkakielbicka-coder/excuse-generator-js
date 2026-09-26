@@ -7,27 +7,31 @@ const floorsData = [
     apartments: [
       { name: "M1", status: "Sprzedane" },
       { name: "M2", status: "Sprzedane" },
+      { name: "M3", status: "Zarezerwowane" },
     ],
   },
   {
     name: "Piętro 1",
     apartments: [
-      { name: "M3", status: "Zarezerwowane" },
-      { name: "M4", status: "Dostępny" },
+      { name: "M4", status: "Zarezerwowane" },
+      { name: "M5", status: "Dostępny" },
+      { name: "M6", status: "Dostępny" },
+      { name: "M7", status: "Dostępny" },
     ],
   },
   {
     name: "Piętro 2",
     apartments: [
-      { name: "M5", status: "Dostępny" },
-      { name: "M6", status: "Dostępny" },
+      { name: "M8", status: "Dostępny" },
+      { name: "M9", status: "Dostępny" },
     ],
   },
   {
     name: "Piętro 3",
     apartments: [
-      { name: "M7", status: "Dostępny" },
-      { name: "M8", status: "Dostępny" },
+      { name: "M10", status: "Dostępny" },
+      { name: "M11", status: "Sprzedane" },
+      { name: "M12", status: "Dostępny" },
     ],
   },
 ];
@@ -59,7 +63,17 @@ let pointerPixelX = 0;
 let pointerPixelY = 0;
 const cameraTarget = new THREE.Vector3();
 const controlsTarget = new THREE.Vector3();
+const defaultCameraPosition = new THREE.Vector3(6, 8, 14);
+const defaultControlsTarget = new THREE.Vector3(0, 0, 0);
 let isAnimatingCamera = false;
+
+const resetButton = document.getElementById("reset-view");
+
+resetButton.addEventListener("click", () => {
+  cameraTarget.copy(defaultCameraPosition);
+  controlsTarget.copy(defaultControlsTarget);
+  isAnimatingCamera = true;
+});
 
 function onPointerMove(event) {
   const rect = app.getBoundingClientRect();
@@ -136,7 +150,7 @@ const textureLoader = new THREE.TextureLoader();
 const brickTexture = textureLoader.load(
   "https://threejs.org/examples/textures/brick_diffuse.jpg",
 );
-const buildingWidth = 4;
+const buildingWidth = 8;
 const buildingDepth = 4;
 
 const apartmentMeshes = [];
