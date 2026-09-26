@@ -16,18 +16,22 @@ app.appendChild(renderer.domElement);
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.target.set(0, 0, 0);
 controls.enableDamping = true;
+const raycaster = new THREE.Raycaster();
+const pointer = new THREE.Vector2();
+
+function onPointerMove(event) {
+  const rect = app.getBoundingClientRect();
+  pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+  pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+}
+
+app.addEventListener("pointermove", onPointerMove);
+
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
 scene.add(ambientLight);
 const sunLight = new THREE.DirectionalLight(0xffffff, 1);
 sunLight.position.set(15, 25, 10);
 scene.add(sunLight);
-
-function animate() {
-  requestAnimationFrame(animate);
-  controls.update();
-  renderer.render(scene, camera);
-}
-animate();
 
 const groundGeometry = new THREE.PlaneGeometry(30, 30);
 const groundMaterial = new THREE.MeshStandardMaterial({ color: 0x8fbf8f });
@@ -48,3 +52,19 @@ const buildingMaterial = new THREE.MeshStandardMaterial({ color: 0xa85c3f });
 const building = new THREE.Mesh(buildingGeometry, buildingMaterial);
 building.position.set(0, 3, 0);
 scene.add(building);
+
+function animate() {
+  requestAnimationFrame(animate);
+  controls.update();
+  renderer.render(scene, camera);
+
+  raycaster.setFromCamera(pointer, camera);
+  const intersects = raycaster.intersectObject(building);
+
+  if (intersects.length > 0) {
+    building.material.color.set(0xd4805a);
+  } else {
+    building.material.color.set(0xa85c3f);
+  }
+}
+animate();
