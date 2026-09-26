@@ -28,6 +28,9 @@ controls.target.set(0, 0, 0);
 controls.enableDamping = true;
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
+const cameraTarget = new THREE.Vector3();
+const controlsTarget = new THREE.Vector3();
+let isAnimatingCamera = false;
 
 function onPointerMove(event) {
   const rect = app.getBoundingClientRect();
@@ -37,8 +40,21 @@ function onPointerMove(event) {
 
 function onClick() {
   if (intersects.length > 0) {
-    const floor = intersects[0].object.userData;
+    const floorMesh = intersects[0].object;
+    const floor = floorMesh.userData;
     buildingInfo.textContent = `${floor.name} — ${floor.apartments} mieszkań (${floor.status})`;
+
+    controlsTarget.set(
+      floorMesh.position.x,
+      floorMesh.position.y,
+      floorMesh.position.z,
+    );
+    cameraTarget.set(
+      floorMesh.position.x + 8,
+      floorMesh.position.y + 3,
+      floorMesh.position.z + 8,
+    );
+    isAnimatingCamera = true;
   }
 }
 
@@ -95,6 +111,16 @@ scene.add(building);
 
 function animate() {
   requestAnimationFrame(animate);
+
+  if (isAnimatingCamera) {
+    camera.position.lerp(cameraTarget, 0.05);
+    controls.target.lerp(controlsTarget, 0.05);
+
+    if (camera.position.distanceTo(cameraTarget) < 0.05) {
+      isAnimatingCamera = false;
+    }
+  }
+
   controls.update();
   renderer.render(scene, camera);
 
