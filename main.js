@@ -36,3 +36,9 @@ ground.rotation.x = -Math.PI / 2;
 scene.add(ground);
 const grid = new THREE.GridHelper(30, 15, 0x556655, 0x99aa99);
 scene.add(grid);
+
+window.addEventListener("resize", () => {
+  camera.aspect = app.clientWidth / app.clientHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(app.clientWidth, app.clientHeight);
+});
