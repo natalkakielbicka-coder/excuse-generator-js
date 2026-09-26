@@ -2,10 +2,34 @@ import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
 const floorsData = [
-  { name: "Parter", status: "Sprzedane", apartments: 4 },
-  { name: "Piętro 1", status: "Zarezerwowane", apartments: 4 },
-  { name: "Piętro 2", status: "Dostępny", apartments: 4 },
-  { name: "Piętro 3", status: "Dostępny", apartments: 4 },
+  {
+    name: "Parter",
+    apartments: [
+      { name: "M1", status: "Sprzedane" },
+      { name: "M2", status: "Sprzedane" },
+    ],
+  },
+  {
+    name: "Piętro 1",
+    apartments: [
+      { name: "M3", status: "Zarezerwowane" },
+      { name: "M4", status: "Dostępny" },
+    ],
+  },
+  {
+    name: "Piętro 2",
+    apartments: [
+      { name: "M5", status: "Dostępny" },
+      { name: "M6", status: "Dostępny" },
+    ],
+  },
+  {
+    name: "Piętro 3",
+    apartments: [
+      { name: "M7", status: "Dostępny" },
+      { name: "M8", status: "Dostępny" },
+    ],
+  },
 ];
 
 let intersects = [];
@@ -46,21 +70,8 @@ function onPointerMove(event) {
 
 function onClick() {
   if (intersects.length > 0) {
-    const floorMesh = intersects[0].object;
-    const floor = floorMesh.userData;
-    buildingInfo.textContent = `${floor.name} — ${floor.apartments} mieszkań (${floor.status})`;
-
-    controlsTarget.set(
-      floorMesh.position.x,
-      floorMesh.position.y,
-      floorMesh.position.z,
-    );
-    cameraTarget.set(
-      floorMesh.position.x + 8,
-      floorMesh.position.y + 3,
-      floorMesh.position.z + 8,
-    );
-    isAnimatingCamera = true;
+    const apartment = intersects[0].object.userData;
+    buildingInfo.textContent = `${apartment.name} (piętro: ${apartment.floorName}) — ${apartment.status}`;
   }
 }
 
@@ -91,7 +102,6 @@ window.addEventListener("resize", () => {
 const building = new THREE.Group();
 
 const floorHeight = 1.5;
-const floorMeshes = [];
 
 const statusColors = {
   Dostępny: 0x7c9473,
@@ -99,18 +109,37 @@ const statusColors = {
   Sprzedane: 0xa85c3f,
 };
 
+const apartmentMeshes = [];
+const buildingWidth = 4;
+const buildingDepth = 4;
+
 for (let i = 0; i < floorsData.length; i++) {
-  const geometry = new THREE.BoxGeometry(4, floorHeight, 4);
-  const material = new THREE.MeshStandardMaterial({
-    color: statusColors[floorsData[i].status],
-  });
-  const floor = new THREE.Mesh(geometry, material);
+  const floor = floorsData[i];
+  const apartmentWidth = buildingWidth / floor.apartments.length;
 
-  floor.position.y = i * floorHeight + floorHeight / 2;
-  floor.userData = floorsData[i];
+  for (let j = 0; j < floor.apartments.length; j++) {
+    const geometry = new THREE.BoxGeometry(
+      apartmentWidth * 0.98,
+      floorHeight * 0.98,
+      buildingDepth * 0.98,
+    );
+    const material = new THREE.MeshStandardMaterial({
+      color: statusColors[floor.apartments[j].status],
+    });
+    const apartment = new THREE.Mesh(geometry, material);
 
-  building.add(floor);
-  floorMeshes.push(floor);
+    apartment.position.x = -buildingWidth / 2 + apartmentWidth * (j + 0.5);
+    apartment.position.y = i * floorHeight + floorHeight / 2;
+    apartment.position.z = 0;
+
+    apartment.userData = {
+      ...floor.apartments[j],
+      floorName: floor.name,
+    };
+
+    building.add(apartment);
+    apartmentMeshes.push(apartment);
+  }
 }
 
 scene.add(building);
@@ -131,10 +160,10 @@ function animate() {
   renderer.render(scene, camera);
 
   raycaster.setFromCamera(pointer, camera);
-  intersects = raycaster.intersectObjects(floorMeshes);
+  intersects = raycaster.intersectObjects(apartmentMeshes);
 
-  floorMeshes.forEach((floor) => {
-    floor.material.color.set(statusColors[floor.userData.status]);
+  apartmentMeshes.forEach((apartment) => {
+    apartment.material.color.set(statusColors[apartment.userData.status]);
   });
 
   if (intersects.length > 0) {
