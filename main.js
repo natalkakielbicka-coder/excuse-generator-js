@@ -128,87 +128,24 @@ const statusColors = {
 
 const textureLoader = new THREE.TextureLoader();
 
-const apartmentMeshes = [];
+const brickTexture = textureLoader.load(
+  "https://threejs.org/examples/textures/brick_diffuse.jpg",
+);
 const buildingWidth = 4;
 const buildingDepth = 4;
 
-for (let i = 0; i < floorsData.length; i++) {
-  const floor = floorsData[i];
-  const apartmentWidth = buildingWidth / floor.apartments.length;
+const apartmentMeshes = [];
+const buildingHeight = floorsData.length * floorHeight;
 
-  const brickTexture = textureLoader.load(
-    "https://threejs.org/examples/textures/brick_diffuse.jpg",
-  );
-
-  const testGeometry = new THREE.BoxGeometry(3, 3, 3);
-  const testMaterial = new THREE.MeshStandardMaterial({ map: brickTexture });
-  const testCube = new THREE.Mesh(testGeometry, testMaterial);
-  testCube.position.set(10, 1.5, 0);
-  scene.add(testCube);
-
-  for (let j = 0; j < floor.apartments.length; j++) {
-    const geometry = new THREE.BoxGeometry(
-      apartmentWidth * 0.98,
-      floorHeight * 0.98,
-      buildingDepth * 0.98,
-    );
-    const material = new THREE.MeshStandardMaterial({
-      color: statusColors[floor.apartments[j].status],
-    });
-    const apartment = new THREE.Mesh(geometry, material);
-
-    const edges = new THREE.EdgesGeometry(geometry);
-    const edgeLines = new THREE.LineSegments(
-      edges,
-      new THREE.LineBasicMaterial({ color: 0x22303d }),
-    );
-    apartment.add(edgeLines);
-
-    const windowGeometry = new THREE.PlaneGeometry(
-      apartmentWidth * 0.98 * 0.5,
-      floorHeight * 0.98 * 0.4,
-    );
-    const windowMaterial = new THREE.MeshStandardMaterial({
-      color: 0xcfe8f0,
-      emissive: 0xcfe8f0,
-      emissiveIntensity: 0.3,
-    });
-    const window1 = new THREE.Mesh(windowGeometry, windowMaterial);
-    window1.position.z = buildingDepth * 0.98 * 0.5 + 0.01;
-    apartment.add(window1);
-
-    const window2 = window1.clone();
-    window2.position.z = -(buildingDepth * 0.98 * 0.5 + 0.01);
-    window2.rotation.y = Math.PI;
-    apartment.add(window2);
-
-    const window3 = window1.clone();
-    window3.geometry = new THREE.PlaneGeometry(
-      buildingDepth * 0.98 * 0.5,
-      floorHeight * 0.98 * 0.4,
-    );
-    window3.position.set(-(apartmentWidth * 0.98 * 0.5 + 0.01), 0, 0);
-    window3.rotation.y = -Math.PI / 2;
-    apartment.add(window3);
-
-    const window4 = window3.clone();
-    window4.position.x = apartmentWidth * 0.98 * 0.5 + 0.01;
-    window4.rotation.y = Math.PI / 2;
-    apartment.add(window4);
-
-    apartment.position.x = -buildingWidth / 2 + apartmentWidth * (j + 0.5);
-    apartment.position.y = i * floorHeight + floorHeight / 2;
-    apartment.position.z = 0;
-
-    apartment.userData = {
-      ...floor.apartments[j],
-      floorName: floor.name,
-    };
-
-    building.add(apartment);
-    apartmentMeshes.push(apartment);
-  }
-}
+const buildingGeometry = new THREE.BoxGeometry(
+  buildingWidth,
+  buildingHeight,
+  buildingDepth,
+);
+const buildingMaterial = new THREE.MeshStandardMaterial({ map: brickTexture });
+const buildingMesh = new THREE.Mesh(buildingGeometry, buildingMaterial);
+buildingMesh.position.y = buildingHeight / 2;
+building.add(buildingMesh);
 
 scene.add(building);
 
