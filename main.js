@@ -1,8 +1,17 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+
+const buildingData = {
+  name: "Budynek A",
+  apartments: 32,
+  status: "Dostępny",
+};
+
+let intersects = [];
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xdfe7dd);
 const app = document.getElementById("app");
+const buildingInfo = document.getElementById("building-info");
 const camera = new THREE.PerspectiveCamera(
   55,
   app.clientWidth / app.clientHeight,
@@ -24,6 +33,14 @@ function onPointerMove(event) {
   pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
   pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
 }
+
+function onClick() {
+  if (intersects.length > 0) {
+    buildingInfo.textContent = `${buildingData.name} — ${buildingData.apartments} mieszkań (${buildingData.status})`;
+  }
+}
+
+app.addEventListener("click", onClick);
 
 app.addEventListener("pointermove", onPointerMove);
 
@@ -59,7 +76,7 @@ function animate() {
   renderer.render(scene, camera);
 
   raycaster.setFromCamera(pointer, camera);
-  const intersects = raycaster.intersectObject(building);
+  intersects = raycaster.intersectObject(building);
 
   if (intersects.length > 0) {
     building.material.color.set(0xd4805a);
