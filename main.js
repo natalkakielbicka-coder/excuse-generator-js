@@ -1,11 +1,12 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
-const buildingData = {
-  name: "Budynek A",
-  apartments: 32,
-  status: "Dostępny",
-};
+const floorsData = [
+  { name: "Parter", status: "Sprzedane" },
+  { name: "Piętro 1", status: "Zarezerwowane" },
+  { name: "Piętro 2", status: "Dostępny" },
+  { name: "Piętro 3", status: "Dostępny" },
+];
 
 let intersects = [];
 const scene = new THREE.Scene();
@@ -64,10 +65,31 @@ window.addEventListener("resize", () => {
   renderer.setSize(app.clientWidth, app.clientHeight);
 });
 
-const buildingGeometry = new THREE.BoxGeometry(4, 6, 4);
-const buildingMaterial = new THREE.MeshStandardMaterial({ color: 0xa85c3f });
-const building = new THREE.Mesh(buildingGeometry, buildingMaterial);
-building.position.set(0, 3, 0);
+const building = new THREE.Group();
+
+const floorHeight = 1.5;
+const floorMeshes = [];
+
+const statusColors = {
+  Dostępny: 0x7c9473,
+  Zarezerwowane: 0xc9a24b,
+  Sprzedane: 0xa85c3f,
+};
+
+for (let i = 0; i < floorsData.length; i++) {
+  const geometry = new THREE.BoxGeometry(4, floorHeight, 4);
+  const material = new THREE.MeshStandardMaterial({
+    color: statusColors[floorsData[i].status],
+  });
+  const floor = new THREE.Mesh(geometry, material);
+
+  floor.position.y = i * floorHeight + floorHeight / 2;
+  floor.userData = floorsData[i];
+
+  building.add(floor);
+  floorMeshes.push(floor);
+}
+
 scene.add(building);
 
 function animate() {
@@ -76,12 +98,16 @@ function animate() {
   renderer.render(scene, camera);
 
   raycaster.setFromCamera(pointer, camera);
-  intersects = raycaster.intersectObject(building);
+  intersects = raycaster.intersectObjects(floorMeshes);
+
+  floorMeshes.forEach((floor) => {
+    floor.material.color.set(statusColors[floor.userData.status]);
+  });
 
   if (intersects.length > 0) {
-    building.material.color.set(0xd4805a);
-  } else {
-    building.material.color.set(0xa85c3f);
+    intersects[0].object.material.color.set(0xd4805a);
   }
+
+  app.style.cursor = intersects.length > 0 ? "pointer" : "default";
 }
 animate();
