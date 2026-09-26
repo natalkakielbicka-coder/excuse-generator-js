@@ -126,6 +126,8 @@ const statusColors = {
   Sprzedane: 0xa85c3f,
 };
 
+const textureLoader = new THREE.TextureLoader();
+
 const apartmentMeshes = [];
 const buildingWidth = 4;
 const buildingDepth = 4;
@@ -133,6 +135,16 @@ const buildingDepth = 4;
 for (let i = 0; i < floorsData.length; i++) {
   const floor = floorsData[i];
   const apartmentWidth = buildingWidth / floor.apartments.length;
+
+  const brickTexture = textureLoader.load(
+    "https://threejs.org/examples/textures/brick_diffuse.jpg",
+  );
+
+  const testGeometry = new THREE.BoxGeometry(3, 3, 3);
+  const testMaterial = new THREE.MeshStandardMaterial({ map: brickTexture });
+  const testCube = new THREE.Mesh(testGeometry, testMaterial);
+  testCube.position.set(10, 1.5, 0);
+  scene.add(testCube);
 
   for (let j = 0; j < floor.apartments.length; j++) {
     const geometry = new THREE.BoxGeometry(
