@@ -38,6 +38,8 @@ scene.background = new THREE.Color(0xdfe7dd);
 const app = document.getElementById("app");
 const buildingInfo = document.getElementById("building-info");
 const tooltip = document.getElementById("tooltip");
+const legendItems = document.querySelectorAll(".legend li");
+let activeStatusFilter = null;
 const camera = new THREE.PerspectiveCamera(
   55,
   app.clientWidth / app.clientHeight,
@@ -78,6 +80,21 @@ function onClick() {
 app.addEventListener("click", onClick);
 
 app.addEventListener("pointermove", onPointerMove);
+
+legendItems.forEach((item) => {
+  item.addEventListener("click", () => {
+    const status = item.dataset.status;
+
+    if (activeStatusFilter === status) {
+      activeStatusFilter = null;
+      item.classList.remove("active");
+    } else {
+      legendItems.forEach((el) => el.classList.remove("active"));
+      activeStatusFilter = status;
+      item.classList.add("active");
+    }
+  });
+});
 
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
 scene.add(ambientLight);
@@ -202,7 +219,16 @@ function animate() {
   intersects = raycaster.intersectObjects(apartmentMeshes, false);
 
   apartmentMeshes.forEach((apartment) => {
-    apartment.material.color.set(statusColors[apartment.userData.status]);
+    const baseColor = statusColors[apartment.userData.status];
+
+    if (
+      activeStatusFilter &&
+      apartment.userData.status !== activeStatusFilter
+    ) {
+      apartment.material.color.set(baseColor).multiplyScalar(0.35);
+    } else {
+      apartment.material.color.set(baseColor);
+    }
   });
 
   if (intersects.length > 0) {
