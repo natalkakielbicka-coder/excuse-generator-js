@@ -2,10 +2,10 @@ import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
 const floorsData = [
-  { name: "Parter", status: "Sprzedane" },
-  { name: "Piętro 1", status: "Zarezerwowane" },
-  { name: "Piętro 2", status: "Dostępny" },
-  { name: "Piętro 3", status: "Dostępny" },
+  { name: "Parter", status: "Sprzedane", apartments: 4 },
+  { name: "Piętro 1", status: "Zarezerwowane", apartments: 4 },
+  { name: "Piętro 2", status: "Dostępny", apartments: 4 },
+  { name: "Piętro 3", status: "Dostępny", apartments: 4 },
 ];
 
 let intersects = [];
@@ -37,7 +37,8 @@ function onPointerMove(event) {
 
 function onClick() {
   if (intersects.length > 0) {
-    buildingInfo.textContent = `${buildingData.name} — ${buildingData.apartments} mieszkań (${buildingData.status})`;
+    const floor = intersects[0].object.userData;
+    buildingInfo.textContent = `${floor.name} — ${floor.apartments} mieszkań (${floor.status})`;
   }
 }
 
