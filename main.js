@@ -53,6 +53,7 @@ const camera = new THREE.PerspectiveCamera(
 camera.position.set(6, 8, 14);
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(app.clientWidth, app.clientHeight);
+renderer.shadowMap.enabled = true;
 app.appendChild(renderer.domElement);
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.target.set(0, 0, 0);
@@ -119,12 +120,19 @@ const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
 scene.add(ambientLight);
 const sunLight = new THREE.DirectionalLight(0xffffff, 1);
 sunLight.position.set(15, 25, 10);
+sunLight.castShadow = true;
+sunLight.shadow.camera.left = -15;
+sunLight.shadow.camera.right = 15;
+sunLight.shadow.camera.top = 15;
+sunLight.shadow.camera.bottom = -15;
+sunLight.shadow.camera.updateProjectionMatrix();
 scene.add(sunLight);
 
 const groundGeometry = new THREE.PlaneGeometry(30, 30);
 const groundMaterial = new THREE.MeshStandardMaterial({ color: 0x8fbf8f });
 const ground = new THREE.Mesh(groundGeometry, groundMaterial);
 ground.rotation.x = -Math.PI / 2;
+ground.receiveShadow = true;
 scene.add(ground);
 const grid = new THREE.GridHelper(30, 15, 0x556655, 0x99aa99);
 scene.add(grid);
@@ -164,6 +172,8 @@ const buildingGeometry = new THREE.BoxGeometry(
 const buildingMaterial = new THREE.MeshStandardMaterial({ map: brickTexture });
 const buildingMesh = new THREE.Mesh(buildingGeometry, buildingMaterial);
 buildingMesh.position.y = buildingHeight / 2;
+buildingMesh.castShadow = true;
+buildingMesh.receiveShadow = true;
 building.add(buildingMesh);
 
 function createMarker(width, height, status, x, y, z, rotationY) {
