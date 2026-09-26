@@ -148,6 +148,25 @@ for (let i = 0; i < floorsData.length; i++) {
     window1.position.z = buildingDepth * 0.98 * 0.5 + 0.01;
     apartment.add(window1);
 
+    const window2 = window1.clone();
+    window2.position.z = -(buildingDepth * 0.98 * 0.5 + 0.01);
+    window2.rotation.y = Math.PI;
+    apartment.add(window2);
+
+    const window3 = window1.clone();
+    window3.geometry = new THREE.PlaneGeometry(
+      buildingDepth * 0.98 * 0.5,
+      floorHeight * 0.98 * 0.4,
+    );
+    window3.position.set(-(apartmentWidth * 0.98 * 0.5 + 0.01), 0, 0);
+    window3.rotation.y = -Math.PI / 2;
+    apartment.add(window3);
+
+    const window4 = window3.clone();
+    window4.position.x = apartmentWidth * 0.98 * 0.5 + 0.01;
+    window4.rotation.y = Math.PI / 2;
+    apartment.add(window4);
+
     apartment.position.x = -buildingWidth / 2 + apartmentWidth * (j + 0.5);
     apartment.position.y = i * floorHeight + floorHeight / 2;
     apartment.position.z = 0;
