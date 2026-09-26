@@ -128,6 +128,13 @@ for (let i = 0; i < floorsData.length; i++) {
     });
     const apartment = new THREE.Mesh(geometry, material);
 
+    const edges = new THREE.EdgesGeometry(geometry);
+    const edgeLines = new THREE.LineSegments(
+      edges,
+      new THREE.LineBasicMaterial({ color: 0x22303d }),
+    );
+    apartment.add(edgeLines);
+
     apartment.position.x = -buildingWidth / 2 + apartmentWidth * (j + 0.5);
     apartment.position.y = i * floorHeight + floorHeight / 2;
     apartment.position.z = 0;
@@ -160,7 +167,7 @@ function animate() {
   renderer.render(scene, camera);
 
   raycaster.setFromCamera(pointer, camera);
-  intersects = raycaster.intersectObjects(apartmentMeshes);
+  intersects = raycaster.intersectObjects(apartmentMeshes, false);
 
   apartmentMeshes.forEach((apartment) => {
     apartment.material.color.set(statusColors[apartment.userData.status]);
