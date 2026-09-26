@@ -135,6 +135,19 @@ for (let i = 0; i < floorsData.length; i++) {
     );
     apartment.add(edgeLines);
 
+    const windowGeometry = new THREE.PlaneGeometry(
+      apartmentWidth * 0.98 * 0.5,
+      floorHeight * 0.98 * 0.4,
+    );
+    const windowMaterial = new THREE.MeshStandardMaterial({
+      color: 0xcfe8f0,
+      emissive: 0xcfe8f0,
+      emissiveIntensity: 0.3,
+    });
+    const window1 = new THREE.Mesh(windowGeometry, windowMaterial);
+    window1.position.z = buildingDepth * 0.98 * 0.5 + 0.01;
+    apartment.add(window1);
+
     apartment.position.x = -buildingWidth / 2 + apartmentWidth * (j + 0.5);
     apartment.position.y = i * floorHeight + floorHeight / 2;
     apartment.position.z = 0;
