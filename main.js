@@ -9,7 +9,7 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   1000,
 );
-camera.position.set(0, 5, 10);
+camera.position.set(0, 10, 15);
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(app.clientWidth, app.clientHeight);
 app.appendChild(renderer.domElement);
@@ -42,3 +42,9 @@ window.addEventListener("resize", () => {
   camera.updateProjectionMatrix();
   renderer.setSize(app.clientWidth, app.clientHeight);
 });
+
+const buildingGeometry = new THREE.BoxGeometry(4, 6, 4);
+const buildingMaterial = new THREE.MeshStandardMaterial({ color: 0xa85c3f });
+const building = new THREE.Mesh(buildingGeometry, buildingMaterial);
+building.position.set(0, 3, 0);
+scene.add(building);
