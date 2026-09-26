@@ -10,7 +10,7 @@ body {
   height: 100%;
   overflow: hidden;
   font-family: "Inter", system-ui, sans-serif;
-  background: #1b2430;
+  background: #f6f4ef;
   color: #22303d;
 }
 
@@ -24,20 +24,20 @@ body {
   align-items: baseline;
   gap: 0.75rem;
   padding: 1rem 1.5rem;
-  background: #1b2430;
-  border-bottom: 1px solid #2e3b4a;
+  background: #ffffff;
+  border-bottom: 1px solid #e2ddd0;
 }
 
 .topbar h1 {
   font-family: "Fraunces", serif;
   font-weight: 600;
   font-size: 1.3rem;
-  color: #f0ede4;
+  color: #22303d;
 }
 
 .topbar-sub {
   font-size: 0.85rem;
-  color: #8fa0af;
+  color: #7a8590;
 }
 
 .layout {
@@ -49,8 +49,8 @@ body {
 .panel {
   width: 260px;
   flex-shrink: 0;
-  background: #1f2a37;
-  border-right: 1px solid #2e3b4a;
+  background: #ffffff;
+  border-right: 1px solid #e2ddd0;
   padding: 1.25rem;
   overflow-y: auto;
 }
@@ -62,7 +62,7 @@ body {
 .panel-block h2 {
   font-size: 0.8rem;
   font-weight: 600;
-  color: #8fa0af;
+  color: #8a94a0;
   margin-bottom: 0.75rem;
 }
 
@@ -80,13 +80,13 @@ body {
 
 .stats dt {
   font-size: 0.85rem;
-  color: #c3cdd6;
+  color: #5b6672;
 }
 
 .stats dd {
   font-family: "Fraunces", serif;
   font-size: 1.05rem;
-  color: #f0ede4;
+  color: #22303d;
 }
 
 .legend {
@@ -95,7 +95,7 @@ body {
   flex-direction: column;
   gap: 0.5rem;
   font-size: 0.88rem;
-  color: #c3cdd6;
+  color: #5b6672;
 }
 
 .legend li {
@@ -123,7 +123,7 @@ body {
 
 .empty-state {
   font-size: 0.85rem;
-  color: #6c7c8a;
+  color: #9aa3ac;
   line-height: 1.5;
 }
 
