@@ -140,3 +140,21 @@ body {
 canvas {
   display: block;
 }
+
+.tooltip {
+  position: absolute;
+  pointer-events: none;
+  background: #22303d;
+  color: #f0ede4;
+  font-size: 0.8rem;
+  padding: 0.4rem 0.65rem;
+  border-radius: 4px;
+  transform: translate(-50%, -120%);
+  opacity: 0;
+  transition: opacity 0.1s;
+  white-space: nowrap;
+}
+
+.tooltip.visible {
+  opacity: 1;
+}

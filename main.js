@@ -13,6 +13,7 @@ const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xdfe7dd);
 const app = document.getElementById("app");
 const buildingInfo = document.getElementById("building-info");
+const tooltip = document.getElementById("tooltip");
 const camera = new THREE.PerspectiveCamera(
   55,
   app.clientWidth / app.clientHeight,
@@ -28,6 +29,8 @@ controls.target.set(0, 0, 0);
 controls.enableDamping = true;
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
+let pointerPixelX = 0;
+let pointerPixelY = 0;
 const cameraTarget = new THREE.Vector3();
 const controlsTarget = new THREE.Vector3();
 let isAnimatingCamera = false;
@@ -36,6 +39,9 @@ function onPointerMove(event) {
   const rect = app.getBoundingClientRect();
   pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
   pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+  pointerPixelX = event.clientX - rect.left;
+  pointerPixelY = event.clientY - rect.top;
 }
 
 function onClick() {
@@ -132,7 +138,15 @@ function animate() {
   });
 
   if (intersects.length > 0) {
+    const floor = intersects[0].object.userData;
+    tooltip.textContent = `${floor.name} (${floor.status})`;
+    tooltip.style.left = `${pointerPixelX}px`;
+    tooltip.style.top = `${pointerPixelY}px`;
+    tooltip.classList.add("visible");
+
     intersects[0].object.material.color.set(0xd4805a);
+  } else {
+    tooltip.classList.remove("visible");
   }
 
   app.style.cursor = intersects.length > 0 ? "pointer" : "default";
